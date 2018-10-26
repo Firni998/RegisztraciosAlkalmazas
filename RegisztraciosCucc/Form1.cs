@@ -20,10 +20,27 @@ namespace RegisztraciosCucc
             InitializeComponent();
             Hozzaad_Button();
             Mentes();
+            
         }
 
-        
-            public void Hozzaad_Button()
+        public void Megnyitas()
+        {
+            var eredmeny = Open.ShowDialog(this);
+            if (eredmeny == DialogResult.OK)
+            {
+                string file_nave = Open.FileName;
+                using (var file = File.OpenText(file_nave))
+                {
+                    string sor = file.ReadLine();
+                    string[] bekertadatok = sor.Split(';');
+                    string[] hobbi = bekertadatok[bekertadatok.Length - 1].Split(',');
+                    NevTextBox.Text = bekertadatok[0];
+                    
+                }
+            }
+
+        }
+        public void Hozzaad_Button()
         {
 
             AddButton.Click += (sender, e) =>
@@ -48,18 +65,11 @@ namespace RegisztraciosCucc
                AdatokMentese ();
             };
         }
-
-        public void Megnyitas()
-        {
-            if(Open.ShowDialog(this) == DialogResult.OK)
-            {
-                
-            }
-        }
+        
 
         public void AdatokMentese()
         {
-            string nem = "";
+            string nem = "Semmi";
             if (FERFI.Checked)
             {
                 nem = "Ferfi";
@@ -78,7 +88,7 @@ namespace RegisztraciosCucc
             }
             
             string Bekert_adatok = "";
-            Bekert_adatok += NevTextBox.Text + ";" + DatumTextBox.Text + ";" + DatumTextBox.Text + ";" + HobbiText;
+            Bekert_adatok += NevTextBox.Text + ";" + DatumTextBox.Text + ";" + FERFI.Checked + ";" + HobbiText;
 
 
 
